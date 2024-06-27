@@ -99,21 +99,18 @@ const SignUpPage = () => {
   const handleuserSignupSubmit = async (data) => {
     try {
       setLoading(true);
-      const response = await userSignup(data);
+      await userSignup(data);
 
-      if (response.status === 201) {
-        toast({
-          title: "Registered successfully!",
-          description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-        });
-        const loginResponse = await userLogin({
-          email: data.email,
-          password: data.password,
-        });
-        dispatch(loginAction(loginResponse.data));
-        navigate("/dashboard");
-      }
+      toast({
+        title: "Registered successfully!",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
+      });
+      const loginResponse = await userLogin({
+        email: data.email,
+        password: data.password,
+      });
+      dispatch(loginAction(loginResponse?.data));
+      navigate("/dashboard");
     } catch (error) {
       toast({
         title: "Something went wrong!",
@@ -287,16 +284,19 @@ const SignUpPage = () => {
                         control={signUpForm.control}
                         name="country_code"
                         render={({ field }) => (
-                          <FormItem className="w-32">
+                          <FormItem className="w-36">
                             <FormLabel>Country Code</FormLabel>
                             <FormControl>
-                              <Select>
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                              >
                                 <SelectTrigger>
-                                  <SelectValue />
+                                  <SelectValue placeholder="Code" />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectGroup>
-                                    <SelectItem>+ 91</SelectItem>
+                                    <SelectItem value="+91">+91</SelectItem>
                                   </SelectGroup>
                                 </SelectContent>
                               </Select>
