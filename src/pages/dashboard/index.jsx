@@ -2,7 +2,6 @@ import React from "react";
 import Header from "@/components/Header";
 import DataTable from "@/components/DataTable";
 import { useQuery } from "@tanstack/react-query";
-import { Loader } from "lucide-react";
 import { getUsersList } from "@/api/users";
 
 const Dashboard = () => {

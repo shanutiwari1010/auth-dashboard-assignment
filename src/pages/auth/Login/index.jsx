@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { GoogleLogin } from "@react-oauth/google";
 
 // <-- Icon Imports -->
 import { Eye, EyeOff, Globe, Loader } from "lucide-react";
@@ -35,6 +36,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { userLogin } from "@/api/auth";
 import { login as loginAction } from "@/store/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { Separator } from "@/components/ui/separator";
 
 // <-- Form Schema for Login form -->
 const FormSchema = z.object({
@@ -119,7 +121,7 @@ const LoginPage = () => {
               sapiente quam voluptate tempora aliquam repellat,
             </CardDescription>
           </CardHeader>
-          <CardContent className="login-auth-form w-full">
+          <CardContent className="login-auth-form w-full flex flex-col gap-4">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(handleLoginSubmit)}
@@ -188,6 +190,15 @@ const LoginPage = () => {
                 </Button>
               </form>
             </Form>
+            <Separator />
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                console.log(credentialResponse);
+              }}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+            />
           </CardContent>
           <CardFooter className="dont-have-account-wrapper w-full text-center font-medium text-gray-800">
             <span>
