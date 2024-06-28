@@ -11,9 +11,11 @@ import {
 import { useDispatch } from "react-redux";
 import { userLogout } from "@/api/auth";
 import { logout } from "@/store/slices/authSlice";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const { logout } = useAuth0();
 
   return (
     <header className="absolute flex justify-between w-full px-9 py-2 bg-white">
@@ -40,6 +42,7 @@ const Header = () => {
               onClick={async () => {
                 await userLogout();
                 dispatch(logout());
+                // logout({ logoutParams: { returnTo: window.location.origin } });
               }}
             >
               Log out

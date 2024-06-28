@@ -4,7 +4,7 @@ import { AUTH_GOOGLE_CLIENT_ID } from "@/config/vars";
 
 const GoogleAuthProvider = ({ children }) => {
   return (
-    <GoogleOAuthProvider clientId={AUTH_GOOGLE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId="455334685417-3t7gi7l3h2jhj70tr0hbfrf57sb1k3he.apps.googleusercontent.com">
       {children}
     </GoogleOAuthProvider>
   );

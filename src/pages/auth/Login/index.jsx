@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useAuth0 } from "@auth0/auth0-react";
 
 // <-- Icon Imports -->
 import { Eye, EyeOff, Globe, Loader } from "lucide-react";
@@ -37,6 +38,7 @@ import { userLogin } from "@/api/auth";
 import { login as loginAction } from "@/store/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { Separator } from "@/components/ui/separator";
+import { jwtDecode } from "jwt-decode";
 
 // <-- Form Schema for Login form -->
 const FormSchema = z.object({
@@ -54,6 +56,15 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const login = useGoogleLogin({
+    onSuccess: (response) => {
+      const token = response.access_token;
+      dispatch(loginAction({ record: { authtoken: token } }));
+      navigate("/dashboard");
+    },
+    onError: (error) => console.error(error),
+  });
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -191,14 +202,13 @@ const LoginPage = () => {
               </form>
             </Form>
             <Separator />
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log(credentialResponse);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-            />
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => login()}
+            >
+              Login with Google
+            </Button>
           </CardContent>
           <CardFooter className="dont-have-account-wrapper w-full text-center font-medium text-gray-800">
             <span>
