@@ -2,8 +2,19 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+} from "@/components/ui/dropdown-menu";
+import { useDispatch } from "react-redux";
+import { userLogout } from "@/api/auth";
+import { logout } from "@/store/slices/authSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+
   return (
     <header className="absolute flex justify-between w-full px-9 py-2 bg-white">
       <Input
@@ -15,10 +26,26 @@ const Header = () => {
         <div className="p-2 w-10 h-10 rounded-full bg-gray-100">
           <Bell className="w-6 h-6" />
         </div>
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>AS</AvatarFallback>
-        </Avatar>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>ST</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={async () => {
+                await userLogout();
+                dispatch(logout());
+              }}
+            >
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
