@@ -1,3 +1,5 @@
+import axios from "@/config/axios";
+
 export const getUsersList = async () => {
   return await axios.get("/userList");
 };
