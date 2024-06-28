@@ -20,6 +20,11 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="integrations" element={<Dashboard />} />
+            <Route path="settings" element={<Dashboard />} />
+            <Route path="help" element={<Dashboard />} />
+            <Route path="analytics" element={<Dashboard />} />
+            <Route path="chats" element={<Dashboard />} />
           </Route>
         </Route>
       </Routes>
