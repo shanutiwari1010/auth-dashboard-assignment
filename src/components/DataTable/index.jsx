@@ -29,8 +29,8 @@ import {
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "../ui/skeleton";
+import DataTablePagination from "./pagination";
 
-// Define columns with correct keys
 export const columns = [
   {
     id: "select",
@@ -118,6 +118,11 @@ export default function DataTable({ data, loading }) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    initialState: {
+      pagination: {
+        pageSize: 4,
+      },
+    },
     state: {
       sorting,
       columnFilters,
@@ -229,29 +234,8 @@ export default function DataTable({ data, loading }) {
             </TableBody>
           </Table>
         </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
-          </div>
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
-          </div>
+        <div className="mt-4">
+          <DataTablePagination table={table} />
         </div>
       </div>
     </Card>
