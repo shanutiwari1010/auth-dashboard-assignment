@@ -14,10 +14,12 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <App />
-        <Toaster />
-      </Provider>
+      <GoogleAuthProvider>
+        <Provider store={store}>
+          <App />
+          <Toaster />
+        </Provider>
+      </GoogleAuthProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>
