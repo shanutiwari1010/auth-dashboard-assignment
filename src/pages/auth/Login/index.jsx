@@ -82,15 +82,24 @@ const LoginPage = () => {
       setLoading(true);
       const response = await userLogin(values);
 
-      dispatch(loginAction(response.data));
-      const { userData } = store.getState().auth;
+      if (response?.data?.status) {
+        dispatch(loginAction(response.data));
+        const { userData } = store.getState().auth;
 
-      if (userData && userData?.record?.authtoken) {
-        navigate("/dashboard");
+        if (userData && userData?.record?.authtoken) {
+          navigate("/dashboard");
+          toast({
+            title: "Login successful!",
+            description:
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+          });
+        }
+      } else {
         toast({
-          title: "Login successful!",
+          title: "Invalid Credentials!",
           description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+            response?.data?.message ??
+            "lorem ipsum dolor sit amet consectetur adipis",
         });
       }
     } catch (error) {
